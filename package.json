@@ -25,7 +25,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev": "nodemon server.js"
   },
   "config": {
     "commitizen": {
