@@ -1,0 +1,47 @@
+{
+  "name": "manager-tasks-backend",
+  "version": "1.0.0",
+  "description": "API RESTful para gerenciamento de tarefas em NodeJs, Express, SQLite.",
+  "keywords": [
+    "node",
+    "sqlite",
+    "api",
+    "restful",
+    "tasks"
+  ],
+  "homepage": "https://github.com/edcaetanoguedes/manager-tasks-backend#readme",
+  "bugs": {
+    "url": "https://github.com/edcaetanoguedes/manager-tasks-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edcaetanoguedes/manager-tasks-backend.git"
+  },
+  "license": "ISC",
+  "author": "https://www.linkedin.com/in/ednaldocaetanoguedes/",
+  "type": "commonjs",
+  "main": "server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.5.3"
+  }
+}
