@@ -1,5 +1,5 @@
 <h1>🔧 Backend: Gerenciador de Tarefas (To-Do List)
-    <img src="https://img.shields.io/badge/Status-EM_CONSTRUCAO-GREEN" width="150" height="25" />
+    <img src="https://img.shields.io/badge/Status-EM_CONSTRUCÃO-00FF00" width="150" height="25" />
     <img src="https://visitor-badge.laobi.icu/badge?page_id=manager-tasks-backend&" />
 </h1>
 
@@ -7,7 +7,7 @@
   <p>Autor <a href="https://github.com/edcaetanoguedes">Ednaldo Guedes</a></p>
 </div>
 
-API RESTful para gerenciamento de tarefas em NodeJs, Express, SQLite.  
+API RESTful para gerenciamento de tarefas em NodeJs, Express, SQLite.
 
 ### Objetivo
 
@@ -23,6 +23,7 @@ Este projeto faz parte de um combo para estudo de Testes Automatizados (Backend,
 ### Estágios do projeto
 
 Fase 1:
+
 - [x] Requisitos.
 - [x] Recursos/Skills.
 - [x] Bibliotecas/dependências.
@@ -31,12 +32,15 @@ Fase 1:
 - [x] Redação inicial do README.
 
 Fase 2:
+
 - [x] Implementação do Backend.
 
 Fase 3:
-- [ ] Testes E2E: [repositório de testes]().
+
+- [ ] Testes E2E: [repositório de testes](https://github.com/edcaetanoguedes/manager-tasks-automated-tests).
 
 Fase 4:
+
 - [ ] Relatório: Análise/Revisão do projeto.
 
 ## Instalação
