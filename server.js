@@ -12,7 +12,10 @@ app.use(bodyParser.json());
 // Consultar todas as tarefas cadastradas
 app.get(`/api/v1/tasks`, (req, res) => {
   db.all("SELECT * FROM tasks", [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.log("Error: ", err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(200).json(rows);
   });
 });
@@ -22,7 +25,10 @@ app.get(`/api/v1/tasks/:id`, (req, res) => {
   const { id } = req.params;
 
   db.all("SELECT * FROM tasks WHERE id = ?", [id], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.log("Error: ", err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(200).json(rows);
   });
 });
@@ -32,7 +38,10 @@ app.post(`/api/v1/tasks`, (req, res) => {
   const { text } = req.body;
 
   db.run("INSERT INTO tasks (text) VALUES (?)", [text], function (err) {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.log("Error: ", err.message);
+      return res.status(500).json({ error: err.message });
+    }
     res.status(201).json({ id: this.lastID });
   });
 });
@@ -50,6 +59,7 @@ app.delete(`/api/v1/tasks/:id`, (req, res) => {
 
     // Caso a tarefa não seja encontrada
     if (this.changes == 0) {
+      console.log("Error: ", "Tarefa não encontrada!");
       return res.status(500).send({ error: "Tarefa não encontrada!" });
     }
 
