@@ -14,7 +14,8 @@ db.serialize(() => {
   db.run(`
         CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            text TEXT
+            text TEXT NOT NULL,
+            creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`);
 });
 
