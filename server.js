@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors"); // controla quais origens externas podem fazer requisições
 const bodyParser = require("body-parser");
 const db = require("./scripts/init_db");
 
