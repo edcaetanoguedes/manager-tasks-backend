@@ -15,10 +15,12 @@ Este projeto faz parte de um combo para estudo de Testes Automatizados (Backend,
 
 ### Funcionalidades principais:
 
-- Listar tarefas.
-- Criar tarefa.
-- Consultar uma tarefa específica.
-- Deletar tarefa.
+- [x] Listar tarefas.
+- [x] Criar tarefa.
+- [x] Consultar uma tarefa específica.
+- [ ] Marcar tarefa como concluída.
+- [ ] Alterar informações da tarefa.
+- [x] Deletar tarefa.
 
 ### Estágios do projeto
 
