@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors"); // controla quais origens externas podem fazer requisições
 const bodyParser = require("body-parser");
-const db = require("./scripts/init_db");
+const db = require("./scripts/database/init_db");
+const Sqlite = require("./scripts/database/procediments");
 
 const app = express();
 const port = 4000;
@@ -11,11 +12,12 @@ app.use(bodyParser.json());
 
 // Consultar todas as tarefas cadastradas
 app.get(`/api/v1/tasks`, (req, res) => {
-  db.all("SELECT * FROM tasks", [], (err, rows) => {
+  Sqlite.tasks_selectAll((err, rows) => {
     if (err) {
       console.log("Error: ", err.message);
       return res.status(500).json({ error: err.message });
     }
+
     res.status(200).json(rows);
   });
 });
@@ -24,7 +26,7 @@ app.get(`/api/v1/tasks`, (req, res) => {
 app.get(`/api/v1/tasks/:id`, (req, res) => {
   const { id } = req.params;
 
-  db.all("SELECT * FROM tasks WHERE id = ?", [id], (err, rows) => {
+  Sqlite.tasks_selectById(id, (err, rows) => {
     if (err) {
       console.log("Error: ", err.message);
       return res.status(500).json({ error: err.message });
@@ -37,7 +39,7 @@ app.get(`/api/v1/tasks/:id`, (req, res) => {
 app.post(`/api/v1/tasks`, (req, res) => {
   const { text } = req.body;
 
-  db.run("INSERT INTO tasks (text) VALUES (?)", [text], function (err) {
+  Sqlite.tasks_submitNewTask({ text }, (err) => {
     if (err) {
       console.log("Error: ", err.message);
       return res.status(500).json({ error: err.message });
@@ -51,7 +53,7 @@ app.delete(`/api/v1/tasks/:id`, (req, res) => {
   console.log("Request DELETE /api/v1/tasks/:id");
   const { id } = req.params;
 
-  db.run("DELETE FROM tasks WHERE id = ?", [id], function (err) {
+  Sqlite.tasks_deleteTaskById(id, (err) => {
     if (err) {
       console.log("Error: ", err.message);
       return res.status(500).send({ error: "Erro ao remover tarefa!" });
