@@ -23,19 +23,14 @@ function tasks_selectStatusById(id, callback) {
 // Cadastra uma nova task
 function tasks_submitNewTask(payload, callback) {
   const { text } = payload;
-  db.run(
-    `INSERT INTO ${TABLES.tasks} (text) VALUES (?) RETURNING *`,
-    [text],
-    callback,
-  );
+  db.run(`INSERT INTO ${TABLES.tasks} (text) VALUES (?)`, [text], callback);
 }
 
 // Atualiza informações da task
 function tasks_updateById(id, payload, callback) {
   const { text, status } = payload;
   var setters = [],
-    complement = "",
-    count = 0; // Qtd de colunas para atualizar, quando restar somente 1 vai parar de add ','
+    complement = "";
 
   // Construção modular da query
   var query = `UPDATE ${TABLES.tasks} SET `;
@@ -69,13 +64,10 @@ function tasks_updateById(id, payload, callback) {
 
 // Deleta uma task pelo ID
 function tasks_deleteById(id, callback) {
-  db.serialize(() => {
-    console.log("params.id: ", id);
-    db.run(
-      `DELETE FROM ${TABLES.tasks} WHERE id = ${id} AND EXISTS (SELECT 1 FROM ${TABLES.tasks} WHERE id = ${id})`,
-      callback,
-    );
-  });
+  db.run(
+    `DELETE FROM ${TABLES.tasks} WHERE id = ${id} AND EXISTS (SELECT 1 FROM ${TABLES.tasks} WHERE id = ${id})`,
+    callback,
+  );
 }
 
 module.exports = {

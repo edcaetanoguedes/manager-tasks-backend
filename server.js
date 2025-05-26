@@ -74,43 +74,15 @@ app.get(`/api/v1/tasks/:id`, (req, res) => {
 app.post(`/api/v1/tasks`, (req, res) => {
   const { text } = req.body;
 
-  Sqlite.tasks_submitNewTask({ text }, (err, rows) => {
-    if (err) {
-      console.log("Error: ", err.message);
-      return res.status(500).json({ error: err.message });
-    }
-  });
-
-  res.status(201).json({ message: "Tarefa criada com sucesso!" });
-});
-
-// Deletar tarefa pelo ID
-app.delete(`/api/v1/tasks/:id`, (req, res) => {
-  console.log("Request DELETE /api/v1/tasks/:id");
-  const { id } = req.params;
-
-  console.log("params.id: ", id);
-
-  Sqlite.tasks_selectById(id, (err, rows) => {
+  Sqlite.tasks_submitNewTask({ text }, function (err) {
     if (err) {
       console.log("Error: ", err.message);
       return res.status(500).json({ error: err.message });
     }
 
-    // Verifica a existência da tarefa
-    if (!rows) {
-      return res.status(400).json({ message: "Esta tarefa não existe!" });
-    }
-
-    // Deleta a tarefa
-    Sqlite.tasks_deleteById(id, (err) => {
-      if (err) {
-        console.log("Error: ", err.message);
-        return res.status(500).json({ error: err.message });
-      }
-
-      res.status(200).json({ message: `Tarefa ${id} apagada com sucesso!` });
-    });
+    res
+      .status(201)
+      .json({ id: this.lastID, message: "Tarefa criada com sucesso!" });
   });
 });
 
@@ -138,6 +110,40 @@ app.put(`/api/v1/tasks/:id`, (req, res) => {
       }
 
       res.status(200).json({ message: "Tarefa atualizada com sucesso!" });
+    });
+  });
+});
+
+// Deletar tarefa pelo ID
+app.delete(`/api/v1/tasks/:id`, (req, res) => {
+  console.log("Request DELETE /api/v1/tasks/:id");
+  const { id } = req.params;
+
+  Sqlite.tasks_selectById(id, (err, rows) => {
+    if (err) {
+      console.log("Error: ", err.message);
+      return res.status(500).json({ error: err.message });
+    }
+
+    // Verifica a existência da tarefa
+    if (!rows) {
+      return res.status(400).json({ message: "Esta tarefa não existe!" });
+    }
+
+    // Deleta a tarefa
+    Sqlite.tasks_deleteById(id, function (err) {
+      if (err) {
+        console.log("Error: ", err.message);
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (this.changes != 1) {
+        return res
+          .status(500)
+          .json({ message: "Algo deu errado enquanto a tarefa era apagada!" });
+      }
+
+      res.status(200).json({ message: `Tarefa ${id} apagada com sucesso!` });
     });
   });
 });
