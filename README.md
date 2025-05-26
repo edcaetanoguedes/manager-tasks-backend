@@ -58,6 +58,22 @@ Fase 4:
   - Execute `npm run dev`.
     - Por padrão o backend. Rodará em [http://localhost:4000](http://localhost:4000).
 
+## Stacks
+
+- **Frontend**: NodeJs, Express.
+- **Banco de dados**: SQLite.
+- **Padronização de código/commit**: husky, lint-stage, commitizen, commitlint.
+
+## Commits
+
+- `feat`: nova funcionalidade.
+- `fix`: correção de bug.
+- `chore`: tarefas gerais que não afetam o código em produção (install, configs, linter).
+- `docs`: mudanças na documentação.
+- `style`: formatação, ponto e vírgula, espaços em branco, etc.
+- `refactor`: refatoração de código (sem nova funcionalidade ou bug fix).
+- `test`: adição ou ajuste de testes.
+
 ## Agradecimentos
 
 - Gostou do projeto? Achou legal? Peça a gentileza de dar uma estrela no projeto, um comentário. Assim poderei ter métricas de relevância do projeto.

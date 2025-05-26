@@ -2,13 +2,15 @@
 
 ### função db.get(SELECT... WHERE id = ?)
 
-Retorna um `n registros` ou `undefined`
+Retorna um `n registros` ou `undefined` quando o select não retorna registros.
 
 ### função db.all(SELECT... WHERE id = ?)
 
-Retorna um `[]` ou `[ registro1, registro2, ... ]`
+Retorna um `[]` ou `[ registro1, registro2, ... ]`.
 
 #### procedures DELETE
+
+Lógica:
 
 - Verifica a existência do registro com `db.get(SELECT ... WHERE id = ?)`, pois o retorno `rows` será `undefined` caso não encontre o registro.
 - Com `rows` retornando **registro** ou `undefined` fica mais fácil de validar.
