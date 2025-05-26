@@ -18,9 +18,12 @@ Este projeto faz parte de um combo para estudo de Testes Automatizados (Backend,
 - [x] Listar tarefas.
 - [x] Criar tarefa.
 - [x] Consultar uma tarefa específica.
-- [ ] Marcar tarefa como concluída.
-- [ ] Alterar informações da tarefa.
+- [x] Alterar status da tarefa.
+- [x] Alterar informações da tarefa.
 - [x] Deletar tarefa.
+- [ ] Listar tarefas por status.
+- [ ] Buscar tarefas por título.
+- [ ] Buscar tarefas por palavra-chave.
 
 ### Estágios do projeto
 
