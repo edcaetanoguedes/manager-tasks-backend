@@ -99,7 +99,7 @@ app.put(`/api/v1/tasks/:id`, (req, res) => {
 
     // Verifica a existência da tarefa
     if (!rows) {
-      return res.status(400).json({ message: "Esta tarefa não existe!" });
+      return res.status(400).json({ error: "Esta tarefa não existe!" });
     }
 
     // Atualiza os dados da tarefa
@@ -127,7 +127,7 @@ app.delete(`/api/v1/tasks/:id`, (req, res) => {
 
     // Verifica a existência da tarefa
     if (!rows) {
-      return res.status(400).json({ message: "Esta tarefa não existe!" });
+      return res.status(400).json({ error: "Esta tarefa não existe!" });
     }
 
     // Deleta a tarefa
@@ -140,7 +140,7 @@ app.delete(`/api/v1/tasks/:id`, (req, res) => {
       if (this.changes != 1) {
         return res
           .status(500)
-          .json({ message: "Algo deu errado enquanto a tarefa era apagada!" });
+          .json({ error: "Algo deu errado enquanto a tarefa era apagada!" });
       }
 
       res.status(200).json({ message: `Tarefa ${id} apagada com sucesso!` });
