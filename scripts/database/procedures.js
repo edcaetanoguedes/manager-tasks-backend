@@ -17,7 +17,7 @@ function tasks_selectAllStatus(callback) {
 
 // Retorna opção de status de task pelo ID
 function tasks_selectStatusById(id, callback) {
-  db.get(`SELECT * FROM ${TABLES.tasks_status} WHERE id = ?`, [id], callback);
+  db.get(`SELECT * FROM ${TABLES.tasks_status} WHERE id = ${id}`, callback);
 }
 
 // Cadastra uma nova task
