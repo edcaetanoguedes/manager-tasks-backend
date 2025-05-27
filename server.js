@@ -91,6 +91,7 @@ app.put(`/api/v1/tasks/:id`, (req, res) => {
   const { id } = req.params;
   const { text, status } = req.body;
 
+  // Busca a tarefa pelo ID
   Sqlite.tasks_selectById(id, (err, rows) => {
     if (err) {
       console.log("Error: ", err.message);
@@ -102,14 +103,29 @@ app.put(`/api/v1/tasks/:id`, (req, res) => {
       return res.status(400).json({ error: "Esta tarefa não existe!" });
     }
 
-    // Atualiza os dados da tarefa
-    Sqlite.tasks_updateById(id, { text, status }, (err) => {
+    // Busca todos as opções de status de tarefa
+    Sqlite.tasks_selectAllStatus((err, rows) => {
       if (err) {
-        console.log("Erro ao atualizar a task!");
+        console.log("Error: ", err.message);
         return res.status(500).json({ error: err.message });
       }
 
-      res.status(200).json({ message: "Tarefa atualizada com sucesso!" });
+      if (!rows) {
+        console.log("Error: ", "Opção de status não encontrada!");
+        return res
+          .status(400)
+          .json({ error: "Opção de status não encontrada!" });
+      }
+
+      // Atualiza os dados da tarefa
+      Sqlite.tasks_updateById(id, { text, status }, (err) => {
+        if (err) {
+          console.log("Erro ao atualizar a task!");
+          return res.status(500).json({ error: err.message });
+        }
+
+        res.status(200).json({ message: "Tarefa atualizada com sucesso!" });
+      });
     });
   });
 });
