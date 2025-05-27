@@ -114,11 +114,18 @@ app.put(`/api/v1/tasks/:id`, (req, res) => {
         return res.status(500).json({ error: err.message });
       }
 
-      if (rows && rows.some((task_status) => task_status.title === status)) {
-        console.log("Error: ", "Opção de status não encontrada!");
-        return res
-          .status(400)
-          .json({ error: "Opção de status não encontrada!" });
+      if (rows) {
+        let exists_task_status = rows.some(
+          (task_status) => task_status.title === status,
+        );
+        console.log("exists_task_status: ", exists_task_status);
+
+        if (!exists_task_status) {
+          console.log("Error: ", "Opção de status não encontrada!");
+          return res
+            .status(400)
+            .json({ error: "Opção de status não encontrada!" });
+        }
       }
 
       // Atualiza os dados da tarefa
