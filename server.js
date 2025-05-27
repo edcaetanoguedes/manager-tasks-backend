@@ -91,6 +91,10 @@ app.put(`/api/v1/tasks/:id`, (req, res) => {
   const { id } = req.params;
   const { text, status } = req.body;
 
+  console.log("id: ", id);
+  console.log("text: ", text);
+  console.log("status: ", status);
+
   // Busca a tarefa pelo ID
   Sqlite.tasks_selectById(id, (err, rows) => {
     if (err) {
@@ -110,7 +114,7 @@ app.put(`/api/v1/tasks/:id`, (req, res) => {
         return res.status(500).json({ error: err.message });
       }
 
-      if (!rows) {
+      if (rows && rows.some((task_status) => task_status.title === status)) {
         console.log("Error: ", "Opção de status não encontrada!");
         return res
           .status(400)
