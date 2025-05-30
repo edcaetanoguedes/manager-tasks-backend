@@ -26,6 +26,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "start": "node server.js",
     "reinit:db": "node scripts/database/reinit_db.js",
     "dev": "npm run reinit:db && nodemon server.js"
   },
