@@ -9,6 +9,10 @@ const port = 4000;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get(`/`, (req, res) => {
+  res.status(200);
+});
+
 // Consultar todas as opções de tarefas
 app.get(`/api/v1/tasks/status`, (req, res) => {
   Sqlite.tasks_selectAllStatus((err, rows) => {
