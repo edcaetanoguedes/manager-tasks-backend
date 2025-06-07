@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get(`/`, (req, res) => {
-  res.status(200);
+  res.status(200).json();
 });
 
 // Consultar todas as opções de tarefas
