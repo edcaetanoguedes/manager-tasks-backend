@@ -1,0 +1,19 @@
+name: Trigger E2E Tests (manager-tasks-automated-tests)
+
+on:
+  push:
+    branches:
+      - developer # ou outra branch que você quiser monitorar
+
+jobs:
+  trigger-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger E2E Tests Workflow
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GH_PERSONAL_TOKEN }}" \
+            https://api.github.com/repos/edcaetanoguedes/manager-tasks-automated-tests/actions/workflows/e2e-tests.yml/dispatches \
+            -d '{"ref":"main"}'
