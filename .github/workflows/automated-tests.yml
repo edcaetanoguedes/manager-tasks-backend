@@ -1,3 +1,4 @@
+# Automatização de testes backend via repositório separado
 name: Trigger E2E Tests (manager-tasks-automated-tests)
 
 on:
