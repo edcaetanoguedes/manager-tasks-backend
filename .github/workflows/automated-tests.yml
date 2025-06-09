@@ -1,0 +1,20 @@
+# Automatização de testes backend via repositório separado
+name: Trigger E2E Tests (manager-tasks-automated-tests)
+
+on:
+  push:
+    branches:
+      - develop # ou outra branch que você quiser monitorar
+
+jobs:
+  trigger-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger E2E Tests Workflow
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GH_MANAGER_TASKS_TESTS_TOKEN }}" \
+            https://api.github.com/repos/edcaetanoguedes/manager-tasks-automated-tests/actions/workflows/automated-tests-backend.yml/dispatches \
+            -d '{"ref":"main"}'
