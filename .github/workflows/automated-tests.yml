@@ -16,5 +16,5 @@ jobs:
           curl -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_MANAGER_TASKS_TESTS_TOKEN }}" \
-            https://api.github.com/repos/edcaetanoguedes/manager-tasks-automated-tests/actions/workflows/e2e-tests.yml/dispatches \
+            https://api.github.com/repos/edcaetanoguedes/manager-tasks-automated-tests/actions/workflows/automated-tests-backend.yml/dispatches \
             -d '{"ref":"main"}'
