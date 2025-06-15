@@ -42,7 +42,7 @@ Fase 2:
 
 Fase 3:
 
-- [ ] Testes E2E: [repositório de testes](https://github.com/edcaetanoguedes/manager-tasks-automated-tests).
+- [x] Testes E2E: [repositório de testes](https://github.com/edcaetanoguedes/manager-tasks-automated-tests).
 
 Fase 4:
 
