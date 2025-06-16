@@ -4,7 +4,7 @@ name: Deploy feature
 on: # Em que ocasiões é permitida a execução do workflow
   push: # Permitido em pushes
     branches: # Definir em que branches é permitido
-      - 'feature/**' # Permite branches de 1º e 2º nível (ex: feature/backend/login)
+      - "feature/**" # Permite branches de 1º e 2º nível (ex: feature/backend/login)
 
 jobs:
   get-current-branch:
@@ -32,12 +32,12 @@ jobs:
     uses: edcaetanoguedes/manager-tasks-automated-tests/.github/workflows/automated-tests-backend.yml@main
     secrets:
       GH_MANAGER_TASKS_TESTS_TOKEN: ${{ secrets.GH_MANAGER_TASKS_TESTS_TOKEN }}
-    needs: get-current-branch # Precisa esperar pelo job setado
+    needs: [get-current-branch] # Precisa esperar pelo job setado
     with:
       # Atribui a branch atual (armazenada em variável) como param p/ o workflow externo de testes
       # Assim o workflow externo poderá testar a branch correta, no caso feature/**
-      backend-branch: ${{ needs.get-current-branch.outputs.current-branch }}
-  
+      current-branch: ${{ needs.get-current-branch.outputs.current-branch }}
+
   merge-feature-to-develop:
     name: Merge feature para develop
     # Deve aguardar os jobs: "obter a branch atual" e "rodar testes"
