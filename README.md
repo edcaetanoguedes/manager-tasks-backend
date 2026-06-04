@@ -46,7 +46,7 @@ Fase 3:
 
 Fase 4:
 
-- [x] Workflow de deploy (develop).
+- [x] Workflow de deploy (merge develop -> main).
 - [ ] Relatório: Análise/Revisão do projeto.
 
 ## Instalação
