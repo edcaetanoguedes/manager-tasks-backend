@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const Sqlite = require("./scripts/database/procedures");
 
 const app = express();
-const port = 4000;
+const port = process.argv[2] || 4000;
 
 app.use(cors());
 app.use(bodyParser.json());

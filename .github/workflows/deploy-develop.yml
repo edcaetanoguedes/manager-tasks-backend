@@ -24,7 +24,7 @@ jobs:
           echo "Status: ${{github.event.workflow_run.conclusion}}"
 
   call-tests-backend-workflow:
-    uses: edcaetanoguedes/manager-tasks-automated-tests/.github/workflows/automated-tests-backend.yml@main
+    uses: edcaetanoguedes/manager-tasks-automated-tests/.github/workflows/automated-tests-backend2.yml@main
     secrets:
       GH_MANAGER_TASKS_TESTS_TOKEN: ${{ secrets.GH_MANAGER_TASKS_TESTS_TOKEN }}
     with:
@@ -62,28 +62,28 @@ jobs:
           git merge origin/develop --no-ff -m "Auto-merge develop into main [skip ci]"
           git push origin main
 
-  merge-main-to-develop:
-    name: Merge main para develop
-    # Deve aguardar o job finalizar
-    needs: merge-develop-to-main
-    runs-on: ubuntu-latest
-    if: success() # Só roda se o job needs forem bem sucedidos
+  # merge-main-to-develop:
+  #   name: Merge main para develop
+  #   # Deve aguardar o job finalizar
+  #   needs: merge-develop-to-main
+  #   runs-on: ubuntu-latest
+  #   if: success() # Só roda se o job needs forem bem sucedidos
 
-    permissions:
-      contents: write # Idem acima
-      pull-requests: write # Idem acima
+  #   permissions:
+  #     contents: write # Idem acima
+  #     pull-requests: write # Idem acima
 
-    steps:
-      - name: Checkout backend repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Merge main into develop
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
+  #   steps:
+  #     - name: Checkout backend repo
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+  #     - name: Merge main into develop
+  #       run: |
+  #         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+  #         git config --global user.name "GitHub Actions"
 
-          git fetch origin develop
-          git checkout develop
-          git merge origin/main --no-ff -m "Auto-merge main into develop [skip ci]"
-          git push origin develop
+  #         git fetch origin develop
+  #         git checkout develop
+  #         git merge origin/main --no-ff -m "Auto-merge main into develop [skip ci]"
+  #         git push origin develop
