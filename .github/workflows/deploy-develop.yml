@@ -24,7 +24,7 @@ jobs:
           echo "Status: ${{github.event.workflow_run.conclusion}}"
 
   call-tests-backend-workflow:
-    uses: edcaetanoguedes/manager-tasks-automated-tests/.github/workflows/automated-tests-backend2.yml@main
+    uses: edcaetanoguedes/manager-tasks-automated-tests/.github/workflows/automated-tests-backend.yml@main
     secrets:
       GH_MANAGER_TASKS_TESTS_TOKEN: ${{ secrets.GH_MANAGER_TASKS_TESTS_TOKEN }}
     with:
