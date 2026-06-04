@@ -33,7 +33,7 @@ Fase 1:
 - [x] Recursos/Skills.
 - [x] Bibliotecas/dependências.
 - [x] [Estrutura do projeto](./docs/structure/project.md).
-- [x] [Rotas da aplicação](./docs/structure/routes.md).
+- [x] [Rotas de API](./docs/structure/routes.md).
 - [x] Redação inicial do README.
 
 Fase 2:
