@@ -30,6 +30,11 @@ jobs:
       - name: Mostrar nome da branch
         run: |
           echo "Branch atual: ${{ steps.vars.outputs.BRANCH }}"
+      
+      - name: Debug output
+        run: |
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "BRANCH=${{ steps.vars.outputs.BRANCH }}"
 
   call-tests-backend-workflow:
     needs: [get-current-branch]
@@ -57,6 +62,7 @@ jobs:
 
       - name: Definir branch
         run: |
+          echo "BRANCH=${{ needs.get-current-branch.outputs.current-branch }}"
           echo "BRANCH=${{ needs.get-current-branch.outputs.current-branch }}" >> $GITHUB_ENV
 
       - name: Validar branch
@@ -74,6 +80,11 @@ jobs:
             echo "Branch não encontrada: $BRANCH"
             exit 1
           fi
+      
+      - name: Debug merge
+        run: |
+          echo "BRANCH=[$BRANCH]"
+          env | grep BRANCH || true
 
       - name: Merge feature para develop
         run: |
