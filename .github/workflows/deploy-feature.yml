@@ -56,14 +56,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          
       - name: Configurando o Git
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
+      
       - name: Merge ${{ needs.get-current-branch.outputs.backend-branch }} into develop
         run: |
           git fetch origin develop
           git checkout develop
-          git merge ${{ needs.get-current-branch.outputs.backend-branch }} --no-ff -m "Merge automático da feature para develop [skip ci]"
+          git merge ${{ needs.get-current-branch.outputs.backend-branch }} --no-ff -m "Auto-merge ${{needs.get-current-branch.outputs.backend-branch}} into develop [skip ci]"
           git push origin develop
           git push origin --delete ${{ needs.get-current-branch.outputs.backend-branch }}
