@@ -59,5 +59,6 @@ jobs:
 
           git fetch origin main
           git checkout main
+          git pull origin main # Garante que a branch main esteja atualizada antes do merge
           git merge origin/develop --no-ff -m "Auto-merge develop into main [skip ci]"
           git push origin main
