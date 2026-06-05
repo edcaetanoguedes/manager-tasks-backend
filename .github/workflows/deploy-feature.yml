@@ -1,54 +1,52 @@
-# Contexto: Repositório de aplicação Backend PRIVADO
 name: Deploy feature
 
-on: # Em que ocasiões é permitida a execução do workflow
-  push: # Permitido em pushes
-    branches: # Definir em que branches é permitido
-      - "feature/**" # Permite branches de 1º e 2º nível (ex: feature/backend/login)
+on:
+  push:
+    branches:
+      - "feature/**"
+
+concurrency:
+  group: merge-feature-develop
+  cancel-in-progress: false
 
 jobs:
   get-current-branch:
     name: Obter nome da branch feature/**
     runs-on: ubuntu-latest
 
-    outputs: # Exporta valores como output do job
-      current-branch: ${{ steps.vars.outputs.BRANCH }} # Saída da variável "backend-branch"
+    outputs:
+      current-branch: ${{ steps.vars.outputs.BRANCH }}
 
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Permite acessar todas as branches e histórico de commits
+          fetch-depth: 0
 
       - name: Obter nome da branch atual
         id: vars
-        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT # Atribui a branch atual na variável
+        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
 
       - name: Mostrar nome da branch
         run: |
           echo "Branch atual: ${{ steps.vars.outputs.BRANCH }}"
 
   call-tests-backend-workflow:
+    needs: [get-current-branch]
     uses: edcaetanoguedes/manager-tasks-automated-tests/.github/workflows/automated-tests-backend.yml@main
     secrets:
       GH_MANAGER_TASKS_TESTS_TOKEN: ${{ secrets.GH_MANAGER_TASKS_TESTS_TOKEN }}
-    needs: [get-current-branch] # Precisa esperar pelo job setado
     with:
-      # Atribui a branch atual (armazenada em variável) como param p/ o workflow externo de testes
-      # Assim o workflow externo poderá testar a branch correta, no caso feature/**
       current-branch: ${{ needs.get-current-branch.outputs.current-branch }}
 
   merge-feature-to-develop:
     name: Merge feature para develop
-    # Deve aguardar os jobs: "obter a branch atual" e "rodar testes"
     needs: [get-current-branch, call-tests-backend-workflow]
     runs-on: ubuntu-latest
-    if: success() # Só roda se os jobs forem bem sucedidos
+    if: success()
 
     permissions:
-      # Permite que o workflow faça push, crie/delete branches, crie tags, altere conteúdo do repositório
       contents: write
-      # Permite criar/editar/fechar pull requests, adicionar comentários, reviewers, label, etc
       pull-requests: write
 
     steps:
@@ -56,14 +54,47 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
-      - name: Merge ${{ needs.get-current-branch.outputs.backend-branch }} into develop
+
+      - name: Definir branch
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
-          
-          git fetch origin develop
+          echo "BRANCH=${{ needs.get-current-branch.outputs.current-branch }}" >> $GITHUB_ENV
+
+      - name: Validar branch
+        run: |
+          if [ -z "$BRANCH" ]; then
+            echo "ERRO: Branch não encontrada."
+            exit 1
+          fi
+
+          echo "Branch recebida: $BRANCH"
+
+      - name: Validar existência da branch remota
+        run: |
+          if ! git ls-remote --heads origin "$BRANCH" | grep -q "$BRANCH"; then
+            echo "Branch não encontrada: $BRANCH"
+            exit 1
+          fi
+
+      - name: Merge feature para develop
+        run: |
+          echo "Feature: $BRANCH"
+          echo "Target: develop"
+
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "GitHub Actions"
+
+          git fetch --all
+
           git checkout develop
-          git merge ${{ needs.get-current-branch.outputs.backend-branch }} --no-ff -m "Auto-merge ${{needs.get-current-branch.outputs.backend-branch}} into develop [skip ci]"
+          git fetch origin develop
+          git reset --hard origin/develop
+
+          git merge "$BRANCH" \
+            --no-ff \
+            -m "Auto-merge $BRANCH into develop [skip ci]"
+
           git push origin develop
-          git push origin --delete ${{ needs.get-current-branch.outputs.backend-branch }}
+
+          if git ls-remote --heads origin "$BRANCH" | grep -q "$BRANCH"; then
+            git push origin --delete "$BRANCH"
+          fi
